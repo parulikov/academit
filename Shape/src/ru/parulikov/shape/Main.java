@@ -19,14 +19,15 @@ public class Main {
     }
 
     public static Shape getShapeWithMaxArea(Shape[] shapesArray) {
+        //В данном методе нет смысла обрабатывать исключение, так как оно никогда не сгенерируется
         return getNShapeByArea(shapesArray, 0);
     }
 
-    public static Shape getNShapeByArea(Shape[] shapeArray, int index) {
+    public static Shape getNShapeByArea(Shape[] shapeArray, int index) throws IllegalArgumentException{
         if (index < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Индекс должен быть больше нуля");
         } else if (index >= shapeArray.length) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Индекс выходит за рамки массива");
         }
 
         Arrays.sort(shapeArray, (o1, o2) -> Double.compare(o2.getArea(), o1.getArea()));
