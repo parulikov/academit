@@ -1,4 +1,4 @@
-package ru.parulikov.vector;
+import ru.parulikov.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,15 +25,15 @@ public class Main {
         vector1 = new Vector(new double[]{5, 2, 7, 2});
 
         System.out.println("Сложение векторов");
-        System.out.println(Vector.vectorsAddition(vector1, vector2));
+        System.out.println(Vector.addition(vector1, vector2));
         System.out.println("-----------------");
 
         System.out.println("Вычитание векторов");
-        System.out.println(Vector.vectorsSubtraction(vector1, vector2));
+        System.out.println(Vector.subtraction(vector1, vector2));
         System.out.println("-----------------");
 
         System.out.println("Умножение векторов");
-        System.out.println(Vector.vectorsMultiplication(vector1, vector2));
+        System.out.println(Vector.multiplication(vector1, vector2));
         System.out.println("-----------------");
 
         System.out.println("Размер вектора");
@@ -45,27 +45,27 @@ public class Main {
         System.out.println("-----------------");
 
         System.out.println("Задание элемнта вектора по индексу");
-        vector1.setElement(6, 0);
+        vector1.setElement(0, 6);
         System.out.println(vector1);
         System.out.println("-----------------");
 
         System.out.println("Прибавление вектора к другому");
-        vector1.foldVector(vector2);
+        vector1.addition(vector2);
         System.out.println(vector1);
         System.out.println("-----------------");
 
         System.out.println("Вычитание вектора из другого");
-        vector1.deductVector(new Vector(new double[]{6, 1, 4, 76, 2, 2}));
+        vector1.subtraction(new Vector(new double[]{6, 1, 4, 76, 2, 2}));
         System.out.println(vector1);
         System.out.println("-----------------");
 
         System.out.println("Скалярное умножение");
-        vector1.dotProduct(6);
+        vector1.multiplication(6);
         System.out.println(vector1);
         System.out.println("-----------------");
 
         System.out.println("Разворот вектора");
-        vector1.turnVector();
+        vector1.turn();
         System.out.println(vector1);
         System.out.println("-----------------");
 
