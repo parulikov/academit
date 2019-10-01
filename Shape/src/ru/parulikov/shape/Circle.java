@@ -29,7 +29,7 @@ public class Circle implements Shape {
 
     @Override
     public int hashCode() {
-        return 81 + (int) (Double.doubleToLongBits(radius) - (Double.doubleToLongBits(radius) >>> 32));
+        return 81 + Double.hashCode(radius);
     }
 
     @Override

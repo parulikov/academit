@@ -3,7 +3,7 @@ package ru.parulikov.shape;
 import java.util.Random;
 
 public class ShapeFactory {
-    private static Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     private ShapeFactory() {
     }
@@ -13,7 +13,7 @@ public class ShapeFactory {
     }
 
     public static Circle getRandomCircle() {
-        return new Circle(random.nextInt(50) + 1);
+        return new Circle(RANDOM.nextInt(50) + 1);
     }
 
     public static Square getSquare(double side) {
@@ -21,7 +21,7 @@ public class ShapeFactory {
     }
 
     public static Square getRandomSquare() {
-        return new Square(random.nextInt(50) + 1);
+        return new Square(RANDOM.nextInt(50) + 1);
     }
 
     public static Triangle getTriangle(double x1, double y1, double x2, double y2, double x3, double y3) {
@@ -29,9 +29,9 @@ public class ShapeFactory {
     }
 
     public static Triangle getRandomTriangle() {
-        return new Triangle(random.nextInt(100) - 50, random.nextInt(100) - 50,
-                random.nextInt(100) - 50, random.nextInt(100) - 50,
-                random.nextInt(100) - 50, random.nextInt(100) - 50);
+        return new Triangle(RANDOM.nextInt(100) - 50, RANDOM.nextInt(100) - 50,
+                RANDOM.nextInt(100) - 50, RANDOM.nextInt(100) - 50,
+                RANDOM.nextInt(100) - 50, RANDOM.nextInt(100) - 50);
     }
 
     public static Rectangle getRectangle(double width, double height) {
@@ -39,11 +39,11 @@ public class ShapeFactory {
     }
 
     public static Rectangle getRandomRectangle() {
-        return new Rectangle(random.nextInt(50) + 1, random.nextInt(50) + 1);
+        return new Rectangle(RANDOM.nextInt(50) + 1, RANDOM.nextInt(50) + 1);
     }
 
     public static Shape getRandomShape() {
-        switch (random.nextInt(4) + 1) {
+        switch (RANDOM.nextInt(4) + 1) {
             case 1:
                 return getRandomCircle();
             case 2:

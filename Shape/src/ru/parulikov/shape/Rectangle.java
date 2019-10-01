@@ -31,8 +31,7 @@ public class Rectangle implements Shape {
 
     @Override
     public int hashCode() {
-        return 14 + (int) (Double.doubleToLongBits(width) - (Double.doubleToLongBits(width) >>> 32)) +
-                (int) (Double.doubleToLongBits(height) - (Double.doubleToLongBits(height) >>> 32));
+        return 14 + Double.hashCode(width) + Double.hashCode(height);
     }
 
     @Override
@@ -45,7 +44,9 @@ public class Rectangle implements Shape {
             return false;
         }
 
-        return width == ((Rectangle) obj).width && height == ((Rectangle) obj).height;
+        Rectangle rectangle = (Rectangle) obj;
+
+        return width == rectangle.width && height == rectangle.height;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Square implements Shape {
 
     @Override
     public int hashCode() {
-        return 53 + (int) (Double.doubleToLongBits(side) - (Double.doubleToLongBits(side) >>> 32));
+        return 53 + Double.hashCode(side);
     }
 
     @Override
