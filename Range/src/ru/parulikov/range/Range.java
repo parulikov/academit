@@ -3,11 +3,10 @@ package ru.parulikov.range;
 public class Range {
     private double from;
     private double to;
-    private Integer hashCode;
 
     public Range(double a, double b) {
-        from = a <= b ? a : b;
-        to = a > b ? a : b;
+        from = Math.min(a, b);
+        to = Math.max(a, b);
     }
 
     public Range(Range range) {
@@ -23,6 +22,14 @@ public class Range {
         return to;
     }
 
+    public void setFrom(double from) {
+        this.from = from;
+    }
+
+    public void setTo(double to) {
+        this.to = to;
+    }
+
     public double getLength() {
         return to - from;
     }
@@ -31,107 +38,61 @@ public class Range {
         return number >= from && number <= to;
     }
 
-    public boolean isInside(Range range) {
+    public Range getRangesIntersection(Range range) {
         if (range == null) {
-            return false;
-        }
-
-        return from >= range.getFrom() && to <= range.getTo();
-    }
-
-    public static boolean isRangesIntersection(Range a, Range b) {
-        if (a == null || b == null) {
-            return false;
-        }
-
-        return (a.isInside(b)) ||
-                (b.isInside(a)) ||
-                (a.getFrom() <= b.getFrom() && a.getTo() >= b.getFrom()) ||
-                (b.getFrom() <= a.getFrom() && b.getTo() >= a.getFrom());
-    }
-
-    public static Range getRangesIntersection(Range a, Range b) {
-        if (a == null || b == null) {
             return null;
         }
 
-        if (isRangesIntersection(a, b)) {
-            if (a.isInside(b)) {
-                return new Range(a);
-            } else if (b.isInside(a)) {
-                return new Range(b);
-            } else if (a.getFrom() >= b.getFrom() && a.getTo() <= b.getFrom() && b.getTo() > a.getTo()) {
-                return new Range(b.getFrom(), a.getTo());
-            } else {
-                return new Range(a.getFrom(), b.getTo());
-            }
+        if ((from <= range.from && to >= range.from) ||
+                (from <= range.to && to >= range.to) ||
+                (from >= range.from && to <= range.to)) {
+            return new Range(Math.max(from, range.from), Math.min(to, range.to));
         }
 
         return null;
     }
 
-    public static Range[] getRangesAssociation(Range a, Range b) {
-        if (a == null && b == null) {
-            return new Range[]{};
-        } else if (a == null) {
-            return new Range[]{new Range(b)};
-        } else if (b == null) {
-            return new Range[]{new Range(a)};
+    public Range[] getRangesAssociation(Range range) {
+        if (range == null) {
+            return new Range[]{new Range(this)};
         }
 
-        if (!isRangesIntersection(a, b)) {
-            return new Range[]{new Range(a), new Range(b)};
+        if ((from <= range.from && to >= range.from) ||
+                (from <= range.to && to >= range.to) ||
+                (from >= range.from && to <= range.to)) {
+            return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
         }
 
-        if (a.isInside(b)) {
-            return new Range[]{new Range(b)};
-        } else if (b.isInside(a)) {
-            return new Range[]{new Range(a)};
-        } else if (a.getFrom() >= b.getFrom() && a.getTo() <= b.getFrom() && b.getTo() > a.getTo()) {
-            return new Range[]{new Range(a.getFrom(), b.getTo())};
-        } else {
-            return new Range[]{new Range(b.getFrom(), a.getTo())};
-        }
+        return new Range[]{new Range(this), new Range(range)};
     }
 
-    public static Range[] getRangesResidual(Range a, Range b) {
-        if (a == null && b == null) {
-            return new Range[]{};
-        } else if (a == null) {
-            return new Range[]{new Range(b)};
-        } else if (b == null) {
-            return new Range[]{new Range(a)};
+    public Range[] getRangesResidual(Range range) {
+        if (range == null || (from > range.to || to < range.from)) {
+            return new Range[]{new Range(this)};
         }
 
-        if (!isRangesIntersection(a, b)) {
-            return new Range[]{new Range(a)};
+        if (from >= range.from && to <= range.to) {
+            return null;
         }
 
-        if (a.equals(b)) {
-            return new Range[]{};
-        } else if (b.isInside(a)) {
-            return new Range[]{new Range(a.getFrom(), b.getFrom()), new Range(a.getTo(), b.getTo())};
-        } else if (a.isInside(b)) {
-            return new Range[]{};
-        } else if (a.getFrom() >= b.getFrom() && a.getTo() <= b.getFrom() && b.getTo() > a.getTo()) {
-            return new Range[]{new Range(a.getFrom(), b.getFrom())};
-        } else {
-            return new Range[]{new Range(b.getTo(), a.getTo())};
+        if (from < range.from && to > range.to) {
+            return new Range[]{new Range(from, range.from), new Range(to, range.to)};
         }
+
+        if (from < range.from && to > range.from) {
+            return new Range[]{new Range(from, range.from)};
+        }
+
+        return new Range[]{new Range(to, range.to)};
     }
 
     @Override
     public int hashCode() {
-        if (hashCode != null) {
-            return hashCode;
-        }
+        int hashCode = 53;
 
-        int result = 53;
+        hashCode = 41 * hashCode + Double.hashCode(from);
+        hashCode = 41 * hashCode + Double.hashCode(to);
 
-        result = 41 * result + (int) (Double.doubleToLongBits(from) - (Double.doubleToLongBits(from) >>> 32));
-        result = 41 * result + (int) (Double.doubleToLongBits(to) - (Double.doubleToLongBits(to) >>> 32));
-
-        hashCode = result;
         return hashCode;
     }
 
@@ -145,11 +106,9 @@ public class Range {
             return false;
         }
 
-        if (hashCode() != obj.hashCode()) {
-            return false;
-        }
+        Range range = (Range) obj;
 
-        return from == ((Range) obj).getFrom() && to == ((Range) obj).getTo();
+        return from == range.getFrom() && to == range.getTo();
     }
 
     @Override

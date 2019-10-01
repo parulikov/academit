@@ -1,19 +1,19 @@
-package ru.parulikov.range;
+import ru.parulikov.range.Range;
 
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Range[] ranges = new Range[8];
+        Range testRange = new Range(-4, 3);
 
-        ranges[0] = new Range(-4, 3);
-        ranges[1] = new Range(-4, 3);
-        ranges[2] = new Range(-2, 1);
-        ranges[3] = new Range(-5, 4);
-        ranges[4] = new Range(5, 7);
-        ranges[5] = new Range(-10, -3);
-        ranges[6] = new Range(-10, -5);
-        ranges[7] = null;
+        Range[] ranges = new Range[7];
+        ranges[0] = new Range(testRange);
+        ranges[1] = new Range(-2, 1);
+        ranges[2] = new Range(-5, 4);
+        ranges[3] = new Range(5, 7);
+        ranges[4] = new Range(-10, -3);
+        ranges[5] = new Range(-10, -5);
+        ranges[6] = null;
 
         System.out.println("Длина интервалов");
         for (Range range : ranges) {
@@ -33,29 +33,30 @@ public class Main {
         System.out.println("------------------");
 
         System.out.println("Пересечение интервалов");
-        for (int i = 1; i < ranges.length; i++) {
+        for (Range range : ranges) {
             System.out.printf("Пересечение %s и %s равно %s%n",
-                    ranges[0], ranges[i], Range.getRangesIntersection(ranges[0], ranges[i]));
+                    testRange, range, testRange.getRangesIntersection(range));
         }
         System.out.println("-----------------");
 
         System.out.println("Объединение интервалов");
-        for (int i = 1; i < ranges.length; i++) {
+        for (Range range : ranges) {
             System.out.printf("Объединение %s и %s равно %s%n",
-                    ranges[0], ranges[i], Arrays.toString(Range.getRangesAssociation(ranges[0], ranges[i])));
+                    testRange, range, Arrays.toString(testRange.getRangesAssociation(range)));
         }
         System.out.println("-----------------");
 
         System.out.println("Разность интервалов");
-        for (int i = 1; i < ranges.length; i++) {
+        for (Range range : ranges) {
             System.out.printf("Разность %s и %s равна %s%n",
-                    ranges[0], ranges[i], Arrays.toString(Range.getRangesResidual(ranges[0], ranges[i])));
+                    testRange, range, Arrays.toString(testRange.getRangesResidual(range)));
         }
         System.out.println("-----------------");
 
         System.out.println("Equals");
-        for (int i = 1; i < ranges.length; i++) {
-            System.out.printf("Интервал %s%s равен интервалу %s%n", ranges[0], ranges[0].equals(ranges[i]) ? "" : " не", ranges[i]);
+        for (Range range : ranges) {
+            System.out.printf("Интервал %s%s равен интервалу %s%n",
+                    testRange, testRange.equals(range) ? "" : " не", range);
         }
         System.out.println("-----------------");
 
@@ -67,11 +68,13 @@ public class Main {
         }
         System.out.println("-----------------");
 
-        System.out.println("Пересечения");
-        for (int i = 1; i < ranges.length; i++) {
-            System.out.printf("%s%s пересекается с %s%n",
-                    ranges[0], Range.isRangesIntersection(ranges[0], ranges[i]) ? "" : " не", ranges[i]);
-        }
+        System.out.println("Геттеры и сеттеры");
+        System.out.printf("Интервалу %s присваиваем %d и %d%n", testRange, -6, 9);
+        testRange.setFrom(-6);
+        testRange.setTo(9);
+
+        System.out.printf("Переменные интервала %s: from = %.1f, to = %.1f%n",
+                testRange, testRange.getFrom(), testRange.getTo());
         System.out.println("-----------------");
     }
 }
