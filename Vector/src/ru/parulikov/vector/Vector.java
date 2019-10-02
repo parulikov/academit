@@ -40,9 +40,8 @@ public class Vector {
     public static Vector addition(Vector vector1, Vector vector2) {
         //Делаю копии чтобы не изменять оригинальные вектора
         Vector copyOfFistVector = new Vector(vector1);
-        Vector copyOfSecondVector = new Vector(vector2);
 
-        copyOfFistVector.addition(copyOfSecondVector);
+        copyOfFistVector.addition(vector2);
 
         return copyOfFistVector;
     }
@@ -50,9 +49,8 @@ public class Vector {
     public static Vector subtraction(Vector vector1, Vector vector2) {
         //Тоже самое
         Vector copyOfFistVector = new Vector(vector1);
-        Vector copyOfSecondVector = new Vector(vector2);
 
-        copyOfFistVector.subtraction(copyOfSecondVector);
+        copyOfFistVector.subtraction(vector2);
 
         return copyOfFistVector;
     }
