@@ -1,4 +1,6 @@
-package ru.parulikov.shape;
+package ru.parulikov.main;
+
+import ru.parulikov.shape.Shape;
 
 import java.util.Comparator;
 

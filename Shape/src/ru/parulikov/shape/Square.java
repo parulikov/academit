@@ -3,7 +3,7 @@ package ru.parulikov.shape;
 public class Square implements Shape {
     private double side;
 
-    Square(double side) {
+    public Square(double side) {
         this.side = side;
     }
 

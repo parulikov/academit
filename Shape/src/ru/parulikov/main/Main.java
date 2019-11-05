@@ -1,7 +1,6 @@
+package ru.parulikov.main;
+
 import ru.parulikov.shape.Shape;
-import ru.parulikov.shape.ShapeFactory;
-import ru.parulikov.shape.ShapesAreaComparator;
-import ru.parulikov.shape.ShapesPerimeterComparator;
 
 import java.util.*;
 
@@ -30,20 +29,15 @@ public class Main {
         return getNShapeByArea(shapesArray, 0);
     }
 
-    public static Shape getNShapeByArea(Shape[] shapeArray, int index) throws ArrayIndexOutOfBoundsException {
+    public static Shape getNShapeByArea(Shape[] shapeArray, int index) {
         return getNShapeByParameter(shapeArray, index, new ShapesAreaComparator());
     }
 
-    public static Shape getShapeWithMaxPerimeter(Shape[] shapesArray) {
-        return getNShapeByArea(shapesArray, 0);
-    }
-
-    public static Shape getNShapeByPerimeter(Shape[] shapeArray, int index) throws ArrayIndexOutOfBoundsException {
+    public static Shape getNShapeByPerimeter(Shape[] shapeArray, int index) {
         return getNShapeByParameter(shapeArray, index, new ShapesPerimeterComparator());
     }
 
-    private static Shape getNShapeByParameter
-            (Shape[] shapeArray, int index, Comparator<Shape> comparator) throws ArrayIndexOutOfBoundsException {
+    private static Shape getNShapeByParameter(Shape[] shapeArray, int index, Comparator<Shape> comparator) {
         if (index < 0) {
             throw new ArrayIndexOutOfBoundsException("Индекс должен быть больше нуля");
         }

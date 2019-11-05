@@ -1,4 +1,6 @@
-package ru.parulikov.shape;
+package ru.parulikov.main;
+
+import ru.parulikov.shape.*;
 
 import java.util.Random;
 

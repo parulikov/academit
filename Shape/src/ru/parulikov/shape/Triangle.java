@@ -8,7 +8,7 @@ public class Triangle implements Shape {
     private double x3;
     private double y3;
 
-    Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+    public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -34,10 +34,10 @@ public class Triangle implements Shape {
 
     @Override
     public double getPerimeter() {
-        return getSegmentLength(x1, x2, y1, y2) + getSegmentLength(x2, x3, y2, y3) + getSegmentLength(x3, x1, y3, y1);
+        return getSegmentLength(x1, y1, x2, y2) + getSegmentLength(x2, y2, x3, y3) + getSegmentLength(x3, y3, x1, y1);
     }
 
-    private double getSegmentLength(double x1, double x2, double y1, double y2) {
+    private double getSegmentLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
