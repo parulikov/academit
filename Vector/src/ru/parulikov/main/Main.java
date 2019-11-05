@@ -1,3 +1,5 @@
+package ru.parulikov.main;
+
 import ru.parulikov.vector.Vector;
 
 public class Main {
@@ -60,7 +62,7 @@ public class Main {
         System.out.println("-----------------");
 
         System.out.println("Скалярное умножение");
-        vector1.multiplication(6);
+        vector1.multiplicationByNumber(6);
         System.out.println(vector1);
         System.out.println("-----------------");
 

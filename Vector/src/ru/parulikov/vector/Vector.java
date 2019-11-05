@@ -18,6 +18,10 @@ public class Vector {
     }
 
     public Vector(double[] doubleArray) {
+        if (doubleArray.length == 0) {
+            throw new IllegalArgumentException("Длинна массива должна быть больше нуля");
+        }
+
         vector = Arrays.copyOf(doubleArray, doubleArray.length);
     }
 
@@ -26,15 +30,7 @@ public class Vector {
             throw new IllegalArgumentException("Длинна массива должна быть больше нуля");
         }
 
-        vector = new double[n];
-
-        for (int i = 0; i < n; i++) {
-            if (i < doubleArray.length) {
-                vector[i] = doubleArray[i];
-            } else {
-                vector[i] = 0;
-            }
-        }
+        vector = Arrays.copyOf(doubleArray, n);
     }
 
     public static Vector addition(Vector vector1, Vector vector2) {
@@ -58,7 +54,7 @@ public class Vector {
     }
 
     public static double multiplication(Vector vector1, Vector vector2) {
-        int minLength = vector1.getSize() < vector2.getSize() ? vector1.getSize() : vector2.getSize();
+        int minLength = Math.min(vector1.getSize(), vector2.getSize());
 
         double result = 0;
 
@@ -75,7 +71,7 @@ public class Vector {
 
     public double getElement(int index) {
         if (index < 0 || index >= vector.length) {
-            throw new ArrayIndexOutOfBoundsException(String.format("В векторе нет индекса %d", index));
+            throw new IndexOutOfBoundsException(String.format("В векторе нет индекса %d", index));
         }
 
         return vector[index];
@@ -83,7 +79,7 @@ public class Vector {
 
     public void setElement(int index, double element) {
         if (index < 0 || index >= vector.length) {
-            throw new ArrayIndexOutOfBoundsException(String.format("В векторе нет индекса %d", index));
+            throw new IndexOutOfBoundsException(String.format("В векторе нет индекса %d", index));
         }
 
         vector[index] = element;
@@ -91,7 +87,7 @@ public class Vector {
 
     public void addition(Vector addedVector) {
         if (vector.length < addedVector.getSize()) {
-            increaseVector(addedVector.getSize());
+            vector = Arrays.copyOf(vector, addedVector.getSize());
         }
 
         for (int i = 0; i < addedVector.getSize(); i++) {
@@ -101,7 +97,7 @@ public class Vector {
 
     public void subtraction(Vector deductibleVector) {
         if (vector.length < deductibleVector.getSize()) {
-            increaseVector(deductibleVector.getSize());
+            vector = Arrays.copyOf(vector, deductibleVector.getSize());
         }
 
         for (int i = 0; i < deductibleVector.getSize(); i++) {
@@ -109,27 +105,19 @@ public class Vector {
         }
     }
 
-    public void multiplication(double scalar) {
+    public void multiplicationByNumber(double scalar) {
         for (int i = 0; i < vector.length; i++) {
             vector[i] *= scalar;
         }
     }
 
     public void turn() {
-        multiplication(-1);
-    }
-
-    private void increaseVector(int finalLength) {
-        double[] newVector = new double[finalLength];
-
-        System.arraycopy(vector, 0, newVector, 0, vector.length);
-
-        vector = newVector;
+        multiplicationByNumber(-1);
     }
 
     @Override
     public int hashCode() {
-        return 53 + Arrays.hashCode(vector);
+        return Arrays.hashCode(vector);
     }
 
     @Override
@@ -161,14 +149,13 @@ public class Vector {
     public String toString() {
         StringBuilder result = new StringBuilder("{");
 
-        if (vector.length != 0) {
-            result.append(vector[0]);
+        result.append(vector[0]);
 
-            for (int i = 1; i < vector.length; i++) {
-                result.append(", ");
-                result.append(vector[i]);
-            }
+        for (int i = 1; i < vector.length; i++) {
+            result.append(", ");
+            result.append(vector[i]);
         }
+
         result.append("}");
 
         return result.toString();
