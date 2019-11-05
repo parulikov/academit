@@ -1,3 +1,5 @@
+package ru.parulikov.main;
+
 import ru.parulikov.range.Range;
 
 import java.util.Arrays;
@@ -34,22 +36,26 @@ public class Main {
 
         System.out.println("Пересечение интервалов");
         for (Range range : ranges) {
-            System.out.printf("Пересечение %s и %s равно %s%n",
-                    testRange, range, testRange.getRangesIntersection(range));
+            try {
+                System.out.printf("Пересечение %s и %s равно %s%n",
+                        testRange, range, testRange.getIntersection(range));
+            } catch (IllegalArgumentException e) {
+                System.out.printf("%s и %s %s%n", testRange, range, e.getMessage());
+            }
         }
         System.out.println("-----------------");
 
         System.out.println("Объединение интервалов");
         for (Range range : ranges) {
             System.out.printf("Объединение %s и %s равно %s%n",
-                    testRange, range, Arrays.toString(testRange.getRangesAssociation(range)));
+                    testRange, range, Arrays.toString(testRange.getUnion(range)));
         }
         System.out.println("-----------------");
 
         System.out.println("Разность интервалов");
         for (Range range : ranges) {
             System.out.printf("Разность %s и %s равна %s%n",
-                    testRange, range, Arrays.toString(testRange.getRangesResidual(range)));
+                    testRange, range, Arrays.toString(testRange.getResidual(range)));
         }
         System.out.println("-----------------");
 

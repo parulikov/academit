@@ -10,8 +10,8 @@ public class Range {
     }
 
     public Range(Range range) {
-        from = range.getFrom();
-        to = range.getTo();
+        from = range.from;
+        to = range.to;
     }
 
     public double getFrom() {
@@ -38,41 +38,37 @@ public class Range {
         return number >= from && number <= to;
     }
 
-    public Range getRangesIntersection(Range range) {
+    public Range getIntersection(Range range) {
         if (range == null) {
-            return null;
+            throw new IllegalArgumentException("отрезок не должен быть равен нулю");
         }
 
-        if ((from <= range.from && to >= range.from) ||
-                (from <= range.to && to >= range.to) ||
-                (from >= range.from && to <= range.to)) {
+        if ((from >= range.from && to <= range.to) || (from <= range.from && to >= range.to)) {
             return new Range(Math.max(from, range.from), Math.min(to, range.to));
         }
 
-        return null;
+        throw new IllegalArgumentException("отрезоки не пересекаются");
     }
 
-    public Range[] getRangesAssociation(Range range) {
+    public Range[] getUnion(Range range) {
         if (range == null) {
             return new Range[]{new Range(this)};
         }
 
-        if ((from <= range.from && to >= range.from) ||
-                (from <= range.to && to >= range.to) ||
-                (from >= range.from && to <= range.to)) {
-            return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
+        if (to < range.from || from > range.to) {
+            return new Range[]{new Range(this), new Range(range)};
         }
 
-        return new Range[]{new Range(this), new Range(range)};
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
-    public Range[] getRangesResidual(Range range) {
+    public Range[] getResidual(Range range) {
         if (range == null || (from > range.to || to < range.from)) {
             return new Range[]{new Range(this)};
         }
 
         if (from >= range.from && to <= range.to) {
-            return null;
+            return new Range[]{};
         }
 
         if (from < range.from && to > range.to) {
