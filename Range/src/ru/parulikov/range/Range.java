@@ -40,19 +40,19 @@ public class Range {
 
     public Range getIntersection(Range range) {
         if (range == null) {
-            throw new IllegalArgumentException("отрезок не должен быть равен нулю");
+            return null;
         }
 
         if ((from >= range.from && to <= range.to) || (from <= range.from && to >= range.to)) {
             return new Range(Math.max(from, range.from), Math.min(to, range.to));
         }
 
-        throw new IllegalArgumentException("отрезоки не пересекаются");
+        return null;
     }
 
     public Range[] getUnion(Range range) {
         if (range == null) {
-            return new Range[]{new Range(this)};
+            throw new IllegalArgumentException("Некорректный аргумент");
         }
 
         if (to < range.from || from > range.to) {
@@ -63,7 +63,11 @@ public class Range {
     }
 
     public Range[] getResidual(Range range) {
-        if (range == null || (from > range.to || to < range.from)) {
+        if (range == null) {
+            throw new IllegalArgumentException("Некорректный аргумент");
+        }
+
+        if (from > range.to || to < range.from) {
             return new Range[]{new Range(this)};
         }
 
@@ -104,7 +108,7 @@ public class Range {
 
         Range range = (Range) obj;
 
-        return from == range.getFrom() && to == range.getTo();
+        return from == range.from && to == range.to;
     }
 
     @Override
